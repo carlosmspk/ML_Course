@@ -25,13 +25,15 @@ res_df_filtered = res_df[res_df['mean_test_score'] > -3]
 
 plot_relationships(res_df_filtered)
 
+def plot_predictions(filename):
+    with open("DeepLearning/results/"+filename+".pickle", "rb") as f:
+        data = pickle.load(f)
 
-with open("DeepLearning/results/data_lessfeatures.pickle", "rb") as f:
-    data = pickle.load(f)
+    x_test, y_test, model = data["x_test"], data["y_test"], data["model"]
+    predictions = model.predict(x_test)
 
-x_test, y_test, model = data["x_test"], data["y_test"], data["model"]
-predictions = model.predict(x_test)
+    plt.plot ((-2.8, 2.8), (-2.8,2.8), "r--")
+    plt.scatter(predictions, y_test)
+    plt.show()
 
-plt.plot ((-2.8, 2.8), (-2.8,2.8), "r--")
-plt.scatter(predictions, y_test)
-plt.show()
+plot_predictions("data_lessfeatures")
