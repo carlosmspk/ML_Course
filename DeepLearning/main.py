@@ -1,5 +1,7 @@
 import pandas as pd
 
+do_gridsearch = False
+
 # store dataset as Data Frame (table format)
 df = pd.read_csv("DeepLearning/dataset/WineQT.csv", index_col="Id")
 print ("\n>>> First 5 rows of data:\n\n",df.head())
@@ -38,41 +40,42 @@ predictions = mlp_reg.predict(x_test)
 
 print (mlp_reg.score(x_test, y_test))
 
-### Build many models and compare them
+if do_gridsearch:
 
-from sklearn.model_selection import GridSearchCV # this will be used to train, test and compare multiple models
-from sklearn.metrics import SCORERS, classification_report
+    ### Build many models and compare them
+    from sklearn.model_selection import GridSearchCV # this will be used to train, test and compare multiple models
+    from sklearn.metrics import SCORERS, classification_report
 
-params_to_try = {
-    "hidden_layer_sizes": [(l1,l2) for l1 in [50, 100, 200, 500] for l2 in [1, 50, 100, 200, 500]],
-    "learning_rate_init":[0.001,0.01,0.1],
-    "max_iter": [500],
-    "random_state": [0]
-}
+    params_to_try = {
+        "hidden_layer_sizes": [(l1,l2) for l1 in [50, 100, 200, 500] for l2 in [1, 50, 100, 200, 500]],
+        "learning_rate_init":[0.001,0.01,0.1],
+        "max_iter": [500],
+        "random_state": [0]
+    }
 
-grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=-1, scoring="neg_mean_squared_error", verbose=2)
+    grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=-1, scoring="neg_mean_squared_error", verbose=2)
 
-grid.fit(x_train, y_train)
-print ("Best model found for paramaters:", grid.best_params_)
+    grid.fit(x_train, y_train)
+    print ("Best model found for paramaters:", grid.best_params_)
 
-predictions = grid.predict(x_test)
+    predictions = grid.predict(x_test)
 
-from sklearn.metrics import mean_squared_error
+    from sklearn.metrics import mean_squared_error
 
-print ("With best model, RMSE is",mean_squared_error(y_test, predictions))
+    print ("With best model, RMSE is",mean_squared_error(y_test, predictions))
 
-#Build dataframe to better visualize results
-results_dict = {
-    "first_layer": [i["hidden_layer_sizes"][0] for i in grid.cv_results_["params"]],
-    "second_layer": [i["hidden_layer_sizes"][1] for i in grid.cv_results_["params"]],
-    "learning_rate": [i["learning_rate_init"] for i in grid.cv_results_["params"]],
-    "mean_test_score" : grid.cv_results_["mean_test_score"],
-}
+    #Build dataframe to better visualize results
+    results_dict = {
+        "first_layer": [i["hidden_layer_sizes"][0] for i in grid.cv_results_["params"]],
+        "second_layer": [i["hidden_layer_sizes"][1] for i in grid.cv_results_["params"]],
+        "learning_rate": [i["learning_rate_init"] for i in grid.cv_results_["params"]],
+        "mean_test_score" : grid.cv_results_["mean_test_score"],
+    }
 
-pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/results.csv")
+    pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/results.csv")
 
 
-model = MLPRegressor(hidden_layer_sizes=(50,), learning_rate_init=.001, max_iter=500, random_state=0)
+model = MLPRegressor(hidden_layer_sizes=(50,), learning_rate_init=.001, max_iter=500000, random_state=0)
 model.fit(x_train, y_train)
 predictions = model.predict(x_test)
 
