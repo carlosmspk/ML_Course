@@ -29,3 +29,6 @@ y = df.values[:,-1]
 print (x.shape, y.shape)
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = .7, random_state=0)
+
+mlp_reg = MLPRegressor(random_state=0, max_iter=500).fit(x_train, y_train)
+predictions = mlp_reg.predict(x_test)
