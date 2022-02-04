@@ -96,7 +96,23 @@ with open("DeepLearning/results/data_lessfeatures.pickle", "wb") as f:
 # Build the model (Categorical)
 from sklearn.neural_network import MLPClassifier
 
-mlp_reg = MLPClassifier(random_state=0, max_iter=500).fit(x_train, y_train)
-predictions = mlp_reg.predict(x_test)
+y = df["quality"] = pd.read_csv("DeepLearning/dataset/WineQT.csv", index_col="Id")["quality"]
 
-print (mlp_reg.score(x_test, y_test))
+_, _, y_train, y_test = train_test_split(x, y, train_size = .7, random_state=0)
+
+model = MLPClassifier(random_state=0, max_iter=500).fit(x_train, y_train)
+predictions = model.predict(x_test)
+
+print (model.score(x_test, y_test))
+
+data = {
+    "x_train" : x_train,
+    "x_test" : x_test,
+    "y_train" : y_train,
+    "y_test" : y_test,
+    "model": model
+}
+
+import pickle
+with open("DeepLearning/results/data_lessfeatures_class.pickle", "wb") as f:
+    pickle.dump(data, f)
