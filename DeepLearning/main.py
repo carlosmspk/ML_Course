@@ -32,3 +32,5 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = .7, rando
 
 mlp_reg = MLPRegressor(random_state=0, max_iter=500).fit(x_train, y_train)
 predictions = mlp_reg.predict(x_test)
+
+print (mlp_reg.score(x_test, y_test))
