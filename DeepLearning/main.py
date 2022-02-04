@@ -38,13 +38,16 @@ print (mlp_reg.score(x_test, y_test))
 ### Build many models and compare them
 
 from sklearn.model_selection import GridSearchCV # this will be used to train, test and compare multiple models
-from sklearn.metrics import classification_report
+from sklearn.metrics import SCORERS, classification_report
 
 params_to_try = {
     "hidden_layer_sizes": [(l1,l2) for l1 in [50, 100, 200, 500] for l2 in [1, 50, 100, 200, 500]],
     "max_iter": [500],
     "random_state": [0]
 }
+
+print(sorted(SCORERS.keys()))
+exit()
 
 grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=4, scoring="rmse")
 
