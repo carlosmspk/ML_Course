@@ -21,8 +21,11 @@ print ("\n>>> Correlation between wine quality and measured features: \n\n", cor
 #### Build the Model
 
 from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import train_test_split
 
 x = df.values[:,:-1]
 y = df.values[:,-1]
 
 print (x.shape, y.shape)
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size = .7, random_state=0)
