@@ -37,7 +37,6 @@ x_pca = PCA(n_components=2).fit_transform(df.drop("quality", axis=1))
 plt.scatter(x_pca[:,0],x_pca[:,1],c=df["quality"])
 plt.colorbar()
 plt.show()
-exit()
 
 x = df.values[:,:-1]
 y = df.values[:,-1]
