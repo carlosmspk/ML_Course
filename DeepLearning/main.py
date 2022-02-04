@@ -70,3 +70,10 @@ results_dict = {
 }
 
 pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/results.csv")
+
+model = MLPRegressor(grid.best_params_).fit(x_train, y_train)
+predictions = model.predict(x_test)
+
+import pickle
+with open("bestNN.pickle", "wb") as f:
+    pickle.dump(model, f)
