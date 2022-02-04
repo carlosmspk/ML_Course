@@ -56,3 +56,11 @@ predictions = grid.predict(x_test)
 from sklearn.metrics import mean_squared_error
 
 print ("With best model, RMSE is",mean_squared_error(y_test, predictions))
+
+#Build dataframe to better visualize results
+results_dict = {
+    "params": grid.cv_results_["params"],
+    "mean_test_score" : grid.cv_results_["mean_test_score"],
+}
+
+print (pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False))
