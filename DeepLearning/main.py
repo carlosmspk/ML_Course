@@ -49,7 +49,10 @@ params_to_try = {
 grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=-1, scoring="neg_mean_squared_error")
 
 grid.fit(x_train, y_train)
-print (grid.best_params_)
+print ("Best model found for paramaters:", grid.best_params_)
+
 predictions = grid.predict(x_test)
 
-print (classification_report(y_test, predictions))
+from sklearn.metrics import mean_squared_error
+
+print ("With best model, RMSE is",mean_squared_error(y_test, predictions))
