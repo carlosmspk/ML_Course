@@ -68,4 +68,4 @@ results_dict = {
     "mean_test_score" : grid.cv_results_["mean_test_score"],
 }
 
-pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/dataset/results.csv")
+pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/results.csv")
