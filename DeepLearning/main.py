@@ -85,11 +85,10 @@ data = {
     "x_train" : x_train,
     "x_test" : x_test,
     "y_train" : y_train,
-    "y_test" : y_test
+    "y_test" : y_test,
+    "model": model
 }
 
 import pickle
-with open("DeepLearning/models/bestNN_lessfeatures.pickle", "wb") as f:
-    pickle.dump(model, f)
-with open("DeepLearning/processed_datasets/WineQT_lessfeatures.pickle", "wb") as f:
+with open("DeepLearning/results/data_lessfeatures.pickle", "wb") as f:
     pickle.dump(data, f)
