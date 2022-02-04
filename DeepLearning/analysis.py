@@ -1,5 +1,5 @@
-from numpy import inner
 import pandas as pd
+import pickle
 
 res_df = pd.read_csv("DeepLearning/results.csv", index_col="id")
 print (res_df.head())
@@ -24,3 +24,16 @@ plot_relationships(res_df)
 res_df_filtered = res_df[res_df['mean_test_score'] > -3]
 
 plot_relationships(res_df_filtered)
+
+
+with open("DeepLearning/processed_datasets/WineQT.pickle", "rb") as f:
+    data = pickle.load(f)
+with open("DeepLearning/models/bestNN.pickle", "rb") as f:
+    model = pickle.load(f)
+
+x_test, y_test = data["x_test"], data["y_test"]
+predictions = model.predict(x_test)
+
+plt.plot ((-2.8, 2.8), (-2.8,2.8), "r--")
+plt.scatter(predictions, y_test)
+plt.show()
