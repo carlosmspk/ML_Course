@@ -20,8 +20,7 @@ print ("\n>>> Correlation between wine quality and measured features: \n\n", cor
 
 #### Build the Model
 
-from keras.models import Sequential
-from keras.layers import Dense
+from sklearn.neural_network import MLPRegressor
 
 x = df.values[:,:-1]
 y = df.values[:,-1]
