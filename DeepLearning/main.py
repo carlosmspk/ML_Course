@@ -45,6 +45,7 @@ from sklearn.metrics import SCORERS, classification_report
 
 params_to_try = {
     "hidden_layer_sizes": [(l1,l2) for l1 in [50, 100, 200, 500] for l2 in [1, 50, 100, 200, 500]],
+    "learning_rate_init":[0.001,0.01,0.1],
     "max_iter": [500],
     "random_state": [0]
 }
