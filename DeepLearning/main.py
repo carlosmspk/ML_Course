@@ -34,3 +34,22 @@ mlp_reg = MLPRegressor(random_state=0, max_iter=500).fit(x_train, y_train)
 predictions = mlp_reg.predict(x_test)
 
 print (mlp_reg.score(x_test, y_test))
+
+### Build many models and compare them
+
+from sklearn.model_selection import GridSearchCV # this will be used to train, test and compare multiple models
+from sklearn.metrics import classification_report
+
+params_to_try = {
+    "hidden_layer_sizes": [(l1,l2) for l1 in [50, 100, 200, 500] for l2 in [1, 50, 100, 200, 500]],
+    "max_iter": [500],
+    "random_state": [0]
+}
+
+grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=4, scoring="accuracy")
+
+grid.fit(x_train, y_train)
+print (grid.best_params_)
+predictions = grid.predict(x_test)
+
+print (classification_report(y_test, predictions))
