@@ -22,7 +22,7 @@ print ("\n>>> Correlation between wine quality and measured features: \n\n", cor
 
 df = df.drop(corr_df["feature"][-3:], axis=1)
 
-#### Build the Model
+#### Build the Model (Regression)
 
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
@@ -92,3 +92,11 @@ data = {
 import pickle
 with open("DeepLearning/results/data_lessfeatures.pickle", "wb") as f:
     pickle.dump(data, f)
+
+# Build the model (Categorical)
+from sklearn.neural_network import MLPClassifier
+
+mlp_reg = MLPClassifier(random_state=0, max_iter=500).fit(x_train, y_train)
+predictions = mlp_reg.predict(x_test)
+
+print (mlp_reg.score(x_test, y_test))
