@@ -71,7 +71,9 @@ results_dict = {
 
 pd.DataFrame(results_dict).sort_values("mean_test_score", ascending=False).to_csv("DeepLearning/results.csv")
 
-model = MLPRegressor(grid.best_params_).fit(x_train, y_train)
+
+model = MLPRegressor(hidden_layer_sizes=(50,), learning_rate_init=.001, max_iter=500, random_state=0)
+model.fit(x_train, y_train)
 predictions = model.predict(x_test)
 
 import pickle
