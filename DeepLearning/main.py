@@ -76,6 +76,15 @@ model = MLPRegressor(hidden_layer_sizes=(50,), learning_rate_init=.001, max_iter
 model.fit(x_train, y_train)
 predictions = model.predict(x_test)
 
+data = {
+    "x_train" : x_train,
+    "x_test" : x_test,
+    "y_train" : y_train,
+    "y_test" : y_test
+}
+
 import pickle
-with open("bestNN.pickle", "wb") as f:
+with open("DeepLearning/models/bestNN.pickle", "wb") as f:
     pickle.dump(model, f)
+with open("DeepLearning/processed_datasets/WineQT.pickle", "wb") as f:
+    pickle.dump(data, f)
