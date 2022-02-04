@@ -20,6 +20,8 @@ corr_df = pd.DataFrame(corr_dict)
 corr_df = corr_df.sort_values("correlation", ascending=False)
 print ("\n>>> Correlation between wine quality and measured features: \n\n", corr_df)
 
+df = df.drop(corr_df["feature"][-3:], axis=1)
+
 #### Build the Model
 
 from sklearn.neural_network import MLPRegressor
@@ -87,7 +89,7 @@ data = {
 }
 
 import pickle
-with open("DeepLearning/models/bestNN.pickle", "wb") as f:
+with open("DeepLearning/models/bestNN_lessfeatures.pickle", "wb") as f:
     pickle.dump(model, f)
-with open("DeepLearning/processed_datasets/WineQT.pickle", "wb") as f:
+with open("DeepLearning/processed_datasets/WineQT_lessfeatures.pickle", "wb") as f:
     pickle.dump(data, f)
