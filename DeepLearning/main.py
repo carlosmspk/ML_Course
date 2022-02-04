@@ -63,7 +63,8 @@ print ("With best model, RMSE is",mean_squared_error(y_test, predictions))
 
 #Build dataframe to better visualize results
 results_dict = {
-    "neurons": [i["hidden_layer_sizes"] for i in grid.cv_results_["params"]],
+    "first_layer": [i["hidden_layer_sizes"][0] for i in grid.cv_results_["params"]],
+    "second_layer": [i["hidden_layer_sizes"][1] for i in grid.cv_results_["params"]],
     "learning_rate": [i["learning_rate_init"] for i in grid.cv_results_["params"]],
     "mean_test_score" : grid.cv_results_["mean_test_score"],
 }
