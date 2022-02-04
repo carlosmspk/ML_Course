@@ -17,3 +17,10 @@ def plot_relationships (df):
             break
         plot_in_axis(axs[i], key)
     plt.show()
+
+plot_relationships(res_df)
+
+#remove outlier
+res_df_filtered = res_df[res_df['mean_test_score'] > -3]
+
+plot_relationships(res_df_filtered)
