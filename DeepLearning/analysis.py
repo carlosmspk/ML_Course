@@ -6,7 +6,13 @@ print (res_df.head())
 
 import matplotlib.pyplot as plt
 
-plt.scatter(res_df["learning_rate"], res_df["mean_test_score"])
-plt.xlabel("Learning Rate")
-plt.ylabel("mean_test_score")
+def plot_in_axis(axis, column_label):
+    axis.scatter(res_df[column_label], res_df["mean_test_score"])
+    axis.set_title (column_label)
+
+_, axs = plt.subplots(1,3)
+for i, key in enumerate(res_df):
+    if key == "mean_test_score":
+        break
+    plot_in_axis(axs[i], key)
 plt.show()
