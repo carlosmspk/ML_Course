@@ -40,3 +40,26 @@ def plot_predictions(filename):
     plt.show()
 
 plot_predictions("data_lessfeatures_class")
+
+def plot_class_distances (filename):
+    with open("DeepLearning/results/"+filename+".pickle", "rb") as f:
+        data = pickle.load(f)
+
+    x_test, y_test, model = data["x_test"], data["y_test"], data["model"]
+    predictions = model.predict(x_test)
+
+    distance_counts = dict()
+
+    for y_true, y_predicted in zip(y_test, predictions):
+        distance = abs(y_predicted-y_true)
+        try:
+            distance_counts[distance] += 1
+        except KeyError:
+            distance_counts[distance] = 1
+    x = [key for key in distance_counts]
+    y = [value for value in distance_counts.values()]
+
+    plt.bar(x,y)
+    plt.show()
+
+plot_class_distances("data_lessfeatures_class")
