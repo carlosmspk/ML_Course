@@ -24,6 +24,12 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+df = pd.DataFrame(StandardScaler().fit_transform(df), columns=df.columns)
+
+print (df.describe())
+
+exit()
+
 x = df.values[:,:-1]
 y = df.values[:,-1]
 
