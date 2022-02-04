@@ -23,7 +23,7 @@ plot_relationships(res_df, "mean_test_score")
 #remove outlier
 res_df_filtered = res_df[res_df['mean_test_score'] > -3]
 
-plot_relationships(res_df_filtered)
+plot_relationships(res_df_filtered, "mean_test_score")
 
 def plot_predictions(filename):
     with open("DeepLearning/results/"+filename+".pickle", "rb") as f:
@@ -32,8 +32,11 @@ def plot_predictions(filename):
     x_test, y_test, model = data["x_test"], data["y_test"], data["model"]
     predictions = model.predict(x_test)
 
-    plt.plot ((-2.8, 2.8), (-2.8,2.8), "r--")
+    start = min(min(y_test), min(predictions))
+    stop = max(max(y_test), max(predictions))
+
+    plt.plot ((start, stop), (start, stop), "r--")
     plt.scatter(predictions, y_test)
     plt.show()
 
-plot_predictions("data_lessfeatures")
+plot_predictions("data_lessfeatures_class")
