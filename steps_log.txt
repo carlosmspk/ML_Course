@@ -9,3 +9,4 @@ In DeepLearning:
 
     7 - Decided model was working as well as it could with the available data. Went to Kaggle to look for new, different data -> dataset with a bunch of pictures of indian dishes (objective is to identify which dish is which).
     8 - Just like in the previous problem, it's a multiclass classification problem, but now with computer vision. For images and visual data, Convolutional Neural Networks (CNN) work best. Problem is, sklearn doesn't have CNNs, so I found this guide on how to allow tensorflow to work on ARM chips -> https://towardsdatascience.com/setting-up-apples-new-m1-macbooks-for-machine-learning-f9c6d67d2c0f
+    9 - Looked for a way to deal with png files with python -> https://machinelearningmastery.com/how-to-load-and-manipulate-images-for-deep-learning-in-python-with-pil-pillow/
