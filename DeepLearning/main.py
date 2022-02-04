@@ -46,7 +46,7 @@ params_to_try = {
     "random_state": [0]
 }
 
-grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=4, scoring="accuracy")
+grid = GridSearchCV(MLPRegressor(), param_grid = params_to_try,n_jobs=4, scoring="rmse")
 
 grid.fit(x_train, y_train)
 print (grid.best_params_)
