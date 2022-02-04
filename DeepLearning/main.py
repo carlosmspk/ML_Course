@@ -24,16 +24,6 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-dummy_df = pd.DataFrame({
-    "a":[-1,0,1],
-    "b":[0,1,2],
-    "c":[-100,0,100],
-    "d":[-1,1,2] #this column should be the only one that differs
-})
-dummy_df = pd.DataFrame(StandardScaler().fit_transform(dummy_df), columns=dummy_df.columns)
-print (dummy_df)
-exit()
-
 x = df.values[:,:-1]
 y = df.values[:,-1]
 
