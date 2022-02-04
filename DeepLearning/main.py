@@ -26,10 +26,6 @@ from sklearn.preprocessing import StandardScaler
 
 df = pd.DataFrame(StandardScaler().fit_transform(df), columns=df.columns)
 
-print (df.describe())
-
-exit()
-
 x = df.values[:,:-1]
 y = df.values[:,-1]
 
