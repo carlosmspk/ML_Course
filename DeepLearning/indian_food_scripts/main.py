@@ -35,3 +35,29 @@ for dirname in listdir("dataset/IndianFood"):
 
 print (x.shape)
 print (y.shape)
+
+
+# Start building model
+
+import tensorflow as tf
+from keras.layers import Flatten, Dense, Dropout
+from keras.models import Sequential
+from keras.losses import SparseCategoricalCrossentropy
+
+def create_model(input_sample: np.ndarray, output_labels) -> Sequential:
+    # Stack NN layers
+    model = Sequential()
+    model.add(Flatten(input_shape=(input_sample.shape)))
+    model.add(Dense(128, activation="relu"))
+    model.add(Dropout(0.2))
+    model.add(Dense(output_labels))
+    
+    # create loss function
+    loss_fn = SparseCategoricalCrossentropy(from_logits=True)
+    model.compile(optimizer="adam",
+    loss=loss_fn,
+    metrics=["accurcay"])
+
+    return model
+
+model = create_model(x[0].shape, y.shape[1])
