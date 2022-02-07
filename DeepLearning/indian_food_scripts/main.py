@@ -2,6 +2,8 @@ from matplotlib import image as img
 import numpy as np
 from os import listdir, chdir
 
+load_small_subset = True
+
 chdir("DeepLearning")
 n_images = 0
 n_labels = 0
@@ -26,7 +28,11 @@ for dirname in listdir("dataset/IndianFood"):
     if dirname == ".DS_Store":
         continue
     print (f"Loading {dirname}... ", end="", flush=True)
+    loaded_images = 0
     for image in listdir("dataset/IndianFood/" + dirname):
+        if load_small_subset and loaded_images >= 3:
+            break
+        loaded_images += 1
         x[i] = img.imread("dataset/IndianFood/" + dirname + "/" + image)
         y[i][label] = 1
         i += 1
