@@ -59,7 +59,7 @@ def create_model(input_sample, label_num) -> Sequential:
     model.add(Flatten(input_shape=input_sample.shape))
     model.add(Dense(128, activation="relu"))
     model.add(Dropout(0.2))
-    model.add(Dense(label_num))
+    model.add(Dense(label_num, activation="softmax"))
     
     # create loss function
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
