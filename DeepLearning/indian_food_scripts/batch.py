@@ -73,7 +73,7 @@ class BatchGenerator(Sequence) :
     
     return np.array([
             imread(self.dataset_path + str(image_path), (300, 300, 3))
-               for image_path in batch_x])/255.0, np.array(batch_y)
+               for image_path in batch_x]), np.array(batch_y)
 
 
             
@@ -81,5 +81,5 @@ if __name__ == "__main__":
     save_img_data_to_pickle("DeepLearning/dataset/IndianFood")
     batch_gen = BatchGenerator("DeepLearning/dataset/IndianFood", batch_size=22)
     for data_batch, label_batch in batch_gen:
-        print (data_batch.shape, label_batch.shape)
+        print (np.min(data_batch[0]), np.max(data_batch[0]))
         exit()
