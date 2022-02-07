@@ -53,10 +53,10 @@ from keras.layers import Flatten, Dense, Dropout
 from keras.models import Sequential
 from keras.losses import SparseCategoricalCrossentropy
 
-def create_model(input_sample: np.ndarray, output_labels) -> Sequential:
+def create_model(input_shape, output_labels) -> Sequential:
     # Stack NN layers
     model = Sequential()
-    model.add(Flatten(input_shape=(input_sample.shape)))
+    model.add(Flatten(input_shape=(input_shape)))
     model.add(Dense(128, activation="relu"))
     model.add(Dropout(0.2))
     model.add(Dense(output_labels))
@@ -69,4 +69,4 @@ def create_model(input_sample: np.ndarray, output_labels) -> Sequential:
 
     return model
 
-model = create_model(x[0].shape, y.shape[1])
+model = create_model((300,300, 3), y.shape[1])
