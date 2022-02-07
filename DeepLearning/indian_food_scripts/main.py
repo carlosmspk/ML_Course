@@ -65,7 +65,7 @@ def create_model(input_shape, output_labels) -> Sequential:
     loss_fn = SparseCategoricalCrossentropy(from_logits=True)
     model.compile(optimizer="adam",
     loss=loss_fn,
-    metrics=["accurcay"])
+    metrics=["accuracy"])
 
     return model
 
