@@ -40,12 +40,15 @@ def save_images_to_one_file(dataset_path, all_subpath = "all"):
     np.save(f"{dataset_path}/labels_one_hot.npy", to_categorical(labels))
 
     print (f"Saved {i} files, of {label} different labels. Images stored in {all_path}.")
+
+
 class BatchGenerator(Sequence) :
   
-  def __init__(self, images_path : str, labels : np.ndarray, batch_size) :
+  def __init__(self, image_names, images_path : str, labels : np.ndarray, batch_size) :
     self.images_path = images_path
     if not self.images_path.endswith("/"):
         self.images_path += "/"
+    self.image_names = image_names
     self.labels = labels
     self.batch_size = batch_size
     
@@ -55,11 +58,12 @@ class BatchGenerator(Sequence) :
   
   
   def __getitem__(self, idx) :
+    batch_x = self.image_names[idx * self.batch_size : (idx+1) * self.batch_size]
     batch_y = self.labels[idx * self.batch_size : (idx+1) * self.batch_size]
     
     return np.array([
-            imread(self.images_path + str(i), (300, 300, 3))
-               for i in range(idx * self.batch_size, (idx+1) * self.batch_size)])/255.0, np.array(batch_y)
+            imread(self.images_path + str(file_name), (300, 300, 3))
+               for file_name in batch_x])/255.0, np.array(batch_y)
 
 
             
