@@ -78,8 +78,10 @@ class BatchGenerator(Sequence) :
 
             
 if __name__ == "__main__":
+    BATCH_SIZE = 100
     save_img_data_to_pickle("DeepLearning/dataset/IndianFood")
-    batch_gen = BatchGenerator("DeepLearning/dataset/IndianFood", batch_size=22)
-    for data_batch, label_batch in batch_gen:
-        print (np.min(data_batch[0]), np.max(data_batch[0]))
-        exit()
+    batch_gen = BatchGenerator("DeepLearning/dataset/IndianFood", batch_size=BATCH_SIZE)
+    analyzed_images = 0
+    for i, (data_batch, label_batch) in enumerate(batch_gen):
+        analyzed_images += len(label_batch)
+        print (f"{i}: {data_batch.shape}\t{label_batch.shape}\tanalyzed {analyzed_images} out of {len(batch_gen.labels)}")
