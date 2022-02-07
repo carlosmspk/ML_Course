@@ -25,9 +25,13 @@ label = 0
 for dirname in listdir("dataset/IndianFood"):
     if dirname == ".DS_Store":
         continue
+    print (f"Loading {dirname}... ", end="", flush=True)
     for image in listdir("dataset/IndianFood/" + dirname):
         x[i] = img.imread("dataset/IndianFood/" + dirname + "/" + image)
         y[i][label] = 1
+        i += 1
+    label += 1
+    print("done!")
 
 print (x.shape)
 print (y.shape)
