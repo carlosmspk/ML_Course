@@ -3,7 +3,7 @@ import numpy as np
 from os import listdir, chdir
 
 LOAD_SMALL_SUBSET = True
-N_IMGS_TO_LOAD = 10
+N_IMGS_TO_LOAD = 100
 
 chdir("DeepLearning")
 n_images = 0
