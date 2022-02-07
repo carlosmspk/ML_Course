@@ -1,45 +1,51 @@
 from tensorflow.keras.utils import Sequence
 import numpy as np
-from matplotlib.image import imread, imsave
-from os import listdir, mkdir
+from matplotlib.image import imread
+from os import listdir
 from tensorflow.keras.utils import to_categorical
+from sklearn.utils import shuffle
+from pickle import dump, load
 
-def save_images_to_one_file(dataset_path, all_subpath = "all"):
+def save_img_data_to_pickle(dataset_path):
+    try:
+        with open(dataset_path + "/daa.pkl", "rb") as f:
+            data = load(f)
+            print ("Dataset already batched. Returning data.")
+        return data
+    except FileNotFoundError:
+        pass
+
+    IGNORE_FILES = (".DS_Store", "data.pkl")
+
     image_count = 0
-    label_count = 0
+    file_names = []
 
     for dirname in listdir(dataset_path):
-        if dirname in (".DS_Store", all_subpath):
+        if dirname in IGNORE_FILES:
             continue
-        label_count += 1
         for image_path in listdir(dataset_path + "/" + dirname):
             image_count += 1
+            file_names.append(image_path)
 
-    labels = np.zeros((image_count,1))
-    label = 0
     i = 0
-    all_path = dataset_path + "/" + all_subpath + "/"
-
+    labels = np.zeros((image_count, 1))
+    label = 0
     for dirname in listdir(dataset_path):
-        if dirname in (".DS_Store", all_subpath):
+        if dirname in IGNORE_FILES:
             continue
         for image_path in listdir(dataset_path + "/" + dirname):
-            print (i, end="\r")
-            from_path = dataset_path + "/" + dirname + "/" + image_path
-            to_path = all_path + f"{i}.png"
-
-            try:
-                imsave(to_path, imread(from_path))
-            except FileNotFoundError:
-                mkdir(dataset_path + "/" + all_subpath)
-                imsave(to_path, imread(from_path))
             labels[i] = label
             i += 1
         label += 1
-
-    np.save(f"{dataset_path}/labels_one_hot.npy", to_categorical(labels))
-
-    print (f"Saved {i} files, of {label} different labels. Images stored in {all_path}.")
+            
+    
+    data = {
+        "labels": to_categorical(labels),
+        "img_paths": file_names
+        }
+    with open(dataset_path + "/data.pkl", "wb") as f:
+        dump(data, f)
+    
 
 
 class BatchGenerator(Sequence) :
@@ -68,4 +74,4 @@ class BatchGenerator(Sequence) :
 
             
 if __name__ == "__main__":
-    print(np.load("DeepLearning/dataset/IndianFood/labels_one_hot.npy").shape)
+    save_img_data_to_pickle("DeepLearning/dataset/IndianFood")
