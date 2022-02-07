@@ -39,10 +39,10 @@ def save_img_data_to_pickle(dataset_path):
         label += 1
     
     file_names_shuffled, labels_shuffled = shuffle(file_names, labels)
-            
+    one_hot_shuffled = to_categorical(labels_shuffled)
     
     data = {
-        "labels": to_categorical(labels_shuffled),
+        "labels": one_hot_shuffled,
         "img_paths": file_names_shuffled
         }
     with open(dataset_path + "/data.pkl", "wb") as f:
@@ -52,15 +52,13 @@ def save_img_data_to_pickle(dataset_path):
 
 class BatchGenerator(Sequence) :
   
-  def __init__(self, dataset_path : str, batch_size) :
-    with open(dataset_path + "/data.pkl", "rb") as f:
-        data = load(f)
-    
-    self.dataset_path = dataset_path
-    if not dataset_path.endswith("/"):
-        self.dataset_path += "/"
-    self.image_paths, self.labels = data["img_paths"], data["labels"]
-    self.batch_size = batch_size
+  def __init__(self,dataset_path : str,  image_paths, labels, batch_size) :
+      self.image_paths = image_paths
+      self.labels = np.array(labels)
+      self.batch_size = batch_size
+      self.dataset_path = dataset_path
+      if not self.dataset_path.endswith("/"):
+          self.dataset_path += "/"
     
     
   def __len__(self) :
@@ -72,16 +70,21 @@ class BatchGenerator(Sequence) :
     batch_y = self.labels[idx * self.batch_size : (idx+1) * self.batch_size]
     
     return np.array([
-            imread(self.dataset_path + str(image_path), (300, 300, 3))
-               for image_path in batch_x]), np.array(batch_y)
+        imread(self.dataset_path + image_path, (300, 300, 3)) for image_path in batch_x
+        ]), np.array(batch_y)
 
 
             
 if __name__ == "__main__":
     BATCH_SIZE = 100
     save_img_data_to_pickle("DeepLearning/dataset/IndianFood")
-    batch_gen = BatchGenerator("DeepLearning/dataset/IndianFood", batch_size=BATCH_SIZE)
+    with open("DeepLearning/dataset/IndianFood/data.pkl", "rb") as f:
+        data = load(f)
+    img_paths = data["img_paths"]
+    labels = data["labels"]
+    batch_gen = BatchGenerator(dataset_path="DeepLearning/dataset/IndianFood", image_paths=img_paths, labels=labels, batch_size=BATCH_SIZE)
     analyzed_images = 0
+
     for i, (data_batch, label_batch) in enumerate(batch_gen):
         analyzed_images += len(label_batch)
         print (f"{i}: {data_batch.shape}\t{label_batch.shape}\tanalyzed {analyzed_images} out of {len(batch_gen.labels)}")
