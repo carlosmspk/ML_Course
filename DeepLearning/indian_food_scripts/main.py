@@ -3,7 +3,7 @@ import numpy as np
 from os import listdir, chdir
 
 LOAD_SMALL_SUBSET = True
-N_IMGS_TO_LOAD = 3
+N_IMGS_TO_LOAD = 10
 
 chdir("DeepLearning")
 n_images = 0
@@ -70,3 +70,10 @@ def create_model(input_shape, output_labels) -> Sequential:
     return model
 
 model = create_model((300,300, 3), y.shape[1])
+
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.2)
+
+model.fit(x_train, y_train, epochs=5)
+model.evaluate(x_test, y_test, verbose=2)
