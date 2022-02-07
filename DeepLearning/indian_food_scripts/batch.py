@@ -2,6 +2,7 @@ from tensorflow.keras.utils import Sequence
 import numpy as np
 from matplotlib.image import imread, imsave
 from os import listdir, mkdir
+from tensorflow.keras.utils import to_categorical
 
 def save_images_to_one_file(dataset_path, all_subpath = "all"):
     image_count = 0
@@ -36,10 +37,10 @@ def save_images_to_one_file(dataset_path, all_subpath = "all"):
             i += 1
         label += 1
 
-    np.save("labels_one_hot.npy", labels)
+    np.save(f"{dataset_path}/labels_one_hot.npy", to_categorical(labels))
 
     print (f"Saved {i} files, of {label} different labels. Images stored in {all_path}.")
 
-
+            
 if __name__ == "__main__":
     print(np.load("DeepLearning/dataset/IndianFood/labels_one_hot.npy").shape)
