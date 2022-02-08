@@ -1,7 +1,8 @@
-
+from pickle import dump
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Dropout, Dense, Flatten
 from keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
+import matplotlib.pyplot as plt
 
 
 def preprocess_data(x_train, y_train, x_test, y_test):
@@ -56,7 +57,34 @@ def create_model(input_shape, label_num) -> Sequential:
 
     return model
 
-def fit_and_train (model : Sequential, x_train, y_train, x_test, y_test, epochs = 1, validation_split = 0.2):
-    fit_result = model.fit(x=x_train, y=y_train, epochs=epochs, validation_split=validation_split).history
-    test_result = model.evaluate(x=x_test, y=y_test)
-    return fit_result, test_result
+def fit_and_train (model : Sequential, x_train, y_train, x_test, y_test, epochs = 1, validation_split = 0.2, store_metrics = None):
+    accuracy = {
+        "train" : [0],
+        "val" : [0],
+        "test" : [0]
+    }
+    for epoch in range (epochs):
+        fit_result = model.fit(x=x_train, y=y_train, epochs=1, validation_split=validation_split).history
+        test_result = model.evaluate(x=x_test, y=y_test)
+
+        accuracy["train"].append(fit_result["accuracy"])
+        accuracy["val"].append(fit_result["val_accuracy"])
+        accuracy["test"].append(test_result[1])
+
+    if store_metrics is not None:
+        with open(store_metrics, "wb") as f:
+            dump(accuracy, f)
+    return accuracy
+
+def plot_results (accuracy_dict):
+    acc_train = accuracy_dict["train"]
+    acc_val = accuracy_dict["val"]
+    acc_test = accuracy_dict["test"]
+    assert len(acc_train) == len(acc_val) == len(acc_test)
+    epochs = [i+1 for i in range (len(acc_train))]
+    plt.plot (epochs, acc_train, label = "Train accuracy")
+    plt.plot (epochs, acc_val, label = "Validation accuracy")
+    plt.plot (epochs, acc_test, label = "Test accuracy")
+    plt.plot (epochs, [1 for i in epochs], "b--", label = "Perfect accuracy")
+    plt.legend ()
+    plt.show()
