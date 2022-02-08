@@ -13,7 +13,7 @@ if __name__ == "__main__":
     MODEL_PATH="DeepLearning/results/mnist_last_model"
 
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_original = x_train
+    x_original = x_test
     x_train, y_train, x_test, y_test = preprocess_data(x_train, y_train, x_test, y_test)
 
     print(x_train.shape, y_train.shape, x_test.shape, y_test.shape)
