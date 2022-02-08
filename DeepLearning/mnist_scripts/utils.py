@@ -70,12 +70,14 @@ def fit_and_train (model : Sequential, x_train, y_train, x_test, y_test, epochs 
         "val" : [0],
         "test" : [0]
     }
-    for epoch in range (epochs):
+    epochs = [i+1 for i in range(epochs)]
+    for epoch in epochs:
+        print (f"Epoch: {epoch}/{len(epochs)}")
         fit_result = model.fit(x=x_train, y=y_train, epochs=1, validation_split=validation_split).history
         test_result = model.evaluate(x=x_test, y=y_test)
 
-        accuracy["train"].append(fit_result["accuracy"])
-        accuracy["val"].append(fit_result["val_accuracy"])
+        accuracy["train"].append(fit_result["accuracy"][-1])
+        accuracy["val"].append(fit_result["val_accuracy"][-1])
         accuracy["test"].append(test_result[1])
 
     if store_metrics is not None:
