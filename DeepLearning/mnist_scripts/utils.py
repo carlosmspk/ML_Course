@@ -1,11 +1,21 @@
 from pickle import dump
+from pickle import load as ld
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Dropout, Dense, Flatten
 from keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 import matplotlib.pyplot as plt
 
 
-def preprocess_data(x_train, y_train, x_test, y_test):
+def preprocess_data(x_train, y_train, x_test, y_test, shrink: float = 1.0):
+    if shrink < 1.0:
+        train_slice = int(shrink*x_train.shape[0])
+        test_slice = int(shrink*x_test.shape[0])
+
+        x_train = x_train[:train_slice]
+        y_train = y_train[:train_slice]
+        x_test = x_test[:test_slice]
+        y_test = y_test[:test_slice]
+
     y_train, y_test = to_categorical(y_train), to_categorical(y_test)
 
     # Add grayscale channel
@@ -17,7 +27,6 @@ def preprocess_data(x_train, y_train, x_test, y_test):
     # Convert from integer 0-255 value to float 0-1 value
     x_train /= 255
     x_test /= 255
-
     return x_train, y_train, x_test, y_test
 
 
@@ -52,8 +61,6 @@ def create_model(input_shape, label_num) -> Sequential:
     model.compile(optimizer="adam",
     loss="categorical_crossentropy",
     metrics=["accuracy"])
-    
-    model.summary()
 
     return model
 
@@ -82,9 +89,17 @@ def plot_results (accuracy_dict):
     acc_test = accuracy_dict["test"]
     assert len(acc_train) == len(acc_val) == len(acc_test)
     epochs = [i+1 for i in range (len(acc_train))]
+    perfect_acc_y = [1,1]
+    perfect_acc_x = [min(epochs),max(epochs)]
+
     plt.plot (epochs, acc_train, label = "Train accuracy")
     plt.plot (epochs, acc_val, label = "Validation accuracy")
     plt.plot (epochs, acc_test, label = "Test accuracy")
-    plt.plot (epochs, [1 for i in epochs], "b--", label = "Perfect accuracy")
+    plt.plot (perfect_acc_x, perfect_acc_y, "b--", label = "Perfect accuracy")
     plt.legend ()
     plt.show()
+
+def load(path : str):
+    with open(path, "rb") as f:
+        loaded_data = ld(f)
+    return loaded_data
