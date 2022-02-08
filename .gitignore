@@ -3,3 +3,5 @@
 */.ipynb_checkpoints
 IndianFood/
 __pycache__/
+indian_last_model/
+out_log.txt
