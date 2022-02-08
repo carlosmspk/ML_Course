@@ -55,3 +55,8 @@ def create_model(input_shape, label_num) -> Sequential:
     model.summary()
 
     return model
+
+def fit_and_train (model : Sequential, x_train, y_train, x_test, y_test, epochs = 1, validation_split = 0.2):
+    fit_result = model.fit(x=x_train, y=y_train, epochs=epochs, validation_split=validation_split).history
+    test_result = model.evaluate(x=x_test, y=y_test)
+    return fit_result, test_result
