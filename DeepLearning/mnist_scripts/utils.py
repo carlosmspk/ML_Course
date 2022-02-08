@@ -2,10 +2,14 @@ from pickle import dump
 from pickle import load as ld
 from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Dropout, Dense, Flatten
 from keras.models import Sequential
-from tensorflow.keras.utils import to_categorical
+import numpy as np
 import matplotlib.pyplot as plt
 
-
+def to_categorical_int(target:np.ndarray):
+    result = np.zeros((target.shape[0], 10))
+    result[np.arange(target.shape[0]),target] = 1
+    return result
+    
 def preprocess_data(x_train, y_train, x_test, y_test, shrink: float = 1.0):
     if shrink < 1.0:
         train_slice = int(shrink*x_train.shape[0])
@@ -16,7 +20,7 @@ def preprocess_data(x_train, y_train, x_test, y_test, shrink: float = 1.0):
         x_test = x_test[:test_slice]
         y_test = y_test[:test_slice]
 
-    y_train, y_test = to_categorical(y_train), to_categorical(y_test)
+    y_train, y_test = to_categorical_int(y_train), to_categorical_int(y_test)
 
     # Add grayscale channel
     x_train = x_train.reshape((x_train.shape[0], 28, 28, 1))
@@ -28,7 +32,6 @@ def preprocess_data(x_train, y_train, x_test, y_test, shrink: float = 1.0):
     x_train /= 255
     x_test /= 255
     return x_train, y_train, x_test, y_test
-
 
 def create_model(input_shape, label_num) -> Sequential:
     model = Sequential()
