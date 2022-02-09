@@ -36,15 +36,13 @@ if show_plots:
     plt.show()
     stats.probplot(data["SalePrice"], plot=plt)
     plt.show()
-    sns.heatmap(corr, annot=True, cmap=plt.cm.seismic)
+    sns.heatmap(corr, annot=True, cmap = plt.cm.seismic)
     plt.show()
 
 # Train test split
 X = data.drop("SalePrice", axis=1)
 y = data["SalePrice"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 
 lin_reg = LinearRegression()
@@ -57,10 +55,10 @@ rmse = np.sqrt(mse)
 print(f"{mse = }")
 
 cor_target = abs(corr["SalePrice"])
-relevant_features = cor_target[cor_target > 0.2]
+relevant_features = cor_target[cor_target > .2]
 names = [index for index, _ in relevant_features.iteritems()]
 
 names.remove("SalePrice")
-print(data.shape[1] - 1 - len(names), "removed feature")
+print(data.shape[1]-1 - len(names), "removed feature")
 
 # we can then use the "new" dataset with the removed feature and we get one less "noisy" variable that is introducing meaningless data
