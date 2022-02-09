@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D
 from tensorflow.keras import Model
 
-print(tf.config.list_physical_devices("GPU"))
+print(tf.config.list_physical_devices('GPU'))
 """Load and prepare the [MNIST dataset](http://yann.lecun.com/exdb/mnist/)."""
 
 mnist = tf.keras.datasets.mnist
@@ -17,9 +17,8 @@ x_test = x_test[..., tf.newaxis].astype("float32")
 
 """Use `tf.data` to batch and shuffle the dataset:"""
 
-train_ds = (
-    tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(10000).batch(32)
-)
+train_ds = tf.data.Dataset.from_tensor_slices(
+    (x_train, y_train)).shuffle(10000).batch(32)
 
 test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 
@@ -29,9 +28,9 @@ test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 class MyModel(Model):
     def __init__(self):
         super(MyModel, self).__init__()
-        self.conv1 = Conv2D(32, 3, activation="relu")
+        self.conv1 = Conv2D(32, 3, activation='relu')
         self.flatten = Flatten()
-        self.d1 = Dense(128, activation="relu")
+        self.d1 = Dense(128, activation='relu')
         self.d2 = Dense(10)
 
     def call(self, x):
@@ -52,11 +51,11 @@ optimizer = tf.keras.optimizers.Adam()
 
 """Select metrics to measure the loss and the accuracy of the model. These metrics accumulate the values over epochs and then print the overall result."""
 
-train_loss = tf.keras.metrics.Mean(name="train_loss")
-train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name="train_accuracy")
+train_loss = tf.keras.metrics.Mean(name='train_loss')
+train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy')
 
-test_loss = tf.keras.metrics.Mean(name="test_loss")
-test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name="test_accuracy")
+test_loss = tf.keras.metrics.Mean(name='test_loss')
+test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
 
 """Use `tf.GradientTape` to train the model:"""
 
@@ -105,11 +104,11 @@ for epoch in range(EPOCHS):
         test_step(test_images, test_labels)
 
     print(
-        f"Epoch {epoch + 1}, "
-        f"Loss: {train_loss.result()}, "
-        f"Accuracy: {train_accuracy.result() * 100}, "
-        f"Test Loss: {test_loss.result()}, "
-        f"Test Accuracy: {test_accuracy.result() * 100}"
+        f'Epoch {epoch + 1}, '
+        f'Loss: {train_loss.result()}, '
+        f'Accuracy: {train_accuracy.result() * 100}, '
+        f'Test Loss: {test_loss.result()}, '
+        f'Test Accuracy: {test_accuracy.result() * 100}'
     )
 
 """The image classifier is now trained to ~98% accuracy on this dataset. To learn more, read the [TensorFlow tutorials](https://www.tensorflow.org/tutorials)."""
