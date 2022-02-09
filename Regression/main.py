@@ -19,10 +19,6 @@ print(data.shape)
 print(data.info())
 
 if show_plots:
-    # We can inspect every single variable's relationship to all others. But in large amounts of features, that's hardly practical
-    # sns.pairplot(data, height=2.5)
-    # plt.tight_layout()
-    # plt.show()
     sns.displot(data["SalePrice"])
     plt.show()
     stats.probplot(data["SalePrice"], plot=plt)
@@ -60,5 +56,3 @@ names = [index for index, _ in relevant_features.iteritems()]
 
 names.remove("SalePrice")
 print(data.shape[1]-1 - len(names), "removed feature")
-
-# we can then use the "new" dataset with the removed feature and we get one less "noisy" variable that is introducing meaningless data
