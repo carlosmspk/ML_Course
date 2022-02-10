@@ -6,7 +6,6 @@ do_gridsearch = False
 df = pd.read_csv("DeepLearning/dataset/WineQT.csv", index_col="Id")
 print("\n>>> First 5 rows of data:\n\n", df.head())
 
-
 corr_dict = {"feature": [], "correlation": []}
 for corr, key in zip(df.corr().values[:, -1], df):
     if key != "quality":
