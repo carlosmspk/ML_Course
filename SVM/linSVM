@@ -1,0 +1,20 @@
+Support Vector Machines work a bit like Linear Regression in that it results in an hyperplane (Linear SVM). However, this hyperplane attempts to seperate two groups of data, rather than fitting the data.
+
+Hyperplane eq.: W^T.X - b = 0
+
+b is the bias term. If we add an extra feature to X that is always 1, we can rewrite the above as:
+W^T.X = 0
+such that b = -w0*x0 = -w0
+
+Hard Margin SVM:
+W^T*X - b >= 1 (why 1?)
+distance from hyperplane to margin is given as 2/|W|
+
+Thus, the goal is to maximize margin (minimize |W|) subject to yi * (W^T*X - b) >= 1
+This equation only makes sense if yi is either 1 or -1 (not 0). if yi could be 0, all 0 points would obey the restriction above.
+
+Soft Margin SVM:
+with soft margin we allow points to be misclassified, and simply incorporate misclassified points in the cost function
+
+cost function:
+1/n + sum(max(0, 1-yi(W^T*X - b))) + λ|W|^2

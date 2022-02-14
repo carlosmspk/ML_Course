@@ -1,0 +1,15 @@
+what if data is not linearly separable by an hyperplane?
+We use the kernel trick: transform your data into an higher dimension, such that it becomes linearly seperable, through some function, phi(x).
+
+Examples:
+> RBF Kernel
+k(x,z) = 
+exp(- ||x-z||^2 / (2^(sigma^2)))
+
+> Primal problem:
+for each i in (1,2,...,n)
+Ei = max(0, 1.yi(W^T*X - b))
+
+minimize 1/n sum( Ei + λ|W|^2)
+subject to: yi(W^T*X - b) >= 1 - Ei
+Ei >= b, for all i
