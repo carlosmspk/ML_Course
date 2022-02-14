@@ -28,6 +28,7 @@ def save_img_data_to_pickle(dataset_path):
             image_count += 1
             file_names.append(f"{dirname}/{image_path}")
 
+    # for each image (path), associate the correct label, i.e. assign an integer to represent which food it's showing.
     i = 0
     labels = np.zeros((image_count, 1))
     label = 0
