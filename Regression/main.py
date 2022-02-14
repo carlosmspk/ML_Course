@@ -11,18 +11,14 @@ from scipy import stats
 show_plots = False
 
 load_boston = load_boston()
-X, y = load_boston.data, load_boston.target
+x, y = load_boston.data, load_boston.target
 
-data = pd.DataFrame(X, columns=load_boston.feature_names)
+data = pd.DataFrame(x, columns=load_boston.feature_names)
 data["SalePrice"] = y
 print(data.shape)
 print(data.info())
 
 if show_plots:
-    # We can inspect every single variable's relationship to all others. But in large amounts of features, that's hardly practical
-    # sns.pairplot(data, height=2.5)
-    # plt.tight_layout()
-    # plt.show()
     sns.displot(data["SalePrice"])
     plt.show()
     stats.probplot(data["SalePrice"], plot=plt)
@@ -40,15 +36,15 @@ if show_plots:
     plt.show()
 
 # Train test split
-X = data.drop("SalePrice", axis=1)
+x = data.drop("SalePrice", axis=1)
 y = data["SalePrice"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
 lin_reg = LinearRegression()
-lin_reg.fit(X_train, y_train)
+lin_reg.fit(x_train, y_train)
 
-predictions = lin_reg.predict(X_test)
+predictions = lin_reg.predict(x_test)
 
 mse = mean_squared_error(y_test, predictions)
 rmse = np.sqrt(mse)
@@ -60,5 +56,3 @@ names = [index for index, _ in relevant_features.iteritems()]
 
 names.remove("SalePrice")
 print(data.shape[1]-1 - len(names), "removed feature")
-
-# we can then use the "new" dataset with the removed feature and we get one less "noisy" variable that is introducing meaningless data
